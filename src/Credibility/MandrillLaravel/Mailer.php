@@ -74,7 +74,7 @@ class Mailer {
      * @param  Closure|string  $callback
      * @return int
      */
-    public function send($view, array $data, $callback)
+    public function send($view, array $data, $callback = null)
     {
         $mergeVars = array();
 
