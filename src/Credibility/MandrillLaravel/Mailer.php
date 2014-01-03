@@ -103,7 +103,7 @@ class Mailer {
             'template_name' => $template,
             'template_content' => array(),
             'message' => array(
-                'from_email' => 'no-reply@credibility.com',
+                'from_email' => Config::get("mandrill-laravel::from_email"),
                 'to' => array(
                     array('email' => $data['email'])
                 ),
