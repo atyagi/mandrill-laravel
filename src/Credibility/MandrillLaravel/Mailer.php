@@ -85,10 +85,17 @@ class Mailer {
         }
 
         $emailFunc = Config::get("mandrill-laravel::content.".$view.".email");
+        $customConfig = Config::get("mandrill-laravel::content.".$view.".custom");
+
+        $customData = array_merge(
+            Config::get("mandrill-laravel::global_configs"),
+            is_array($customConfig) ? $customConfig : array()
+        );
 
         $finalData = array(
             'email' => $emailFunc($data),
-            'merge_vars' => $mergeVars
+            'merge_vars' => $mergeVars,
+            'custom' => $customData
         );
 
         return $this->sendMandrillTemplate($view, $finalData);
@@ -115,6 +122,8 @@ class Mailer {
                 )
             )
         );
+
+        $request['message'] = array_merge($request['message'], $data['custom']);
 
         return \Mandrill::sendEmailTemplate($request);
     }
