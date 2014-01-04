@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class Mail extends Facade
+class MandrillLaravelFacade extends Facade
 {
     /**
      * Get the registered name of the component.
