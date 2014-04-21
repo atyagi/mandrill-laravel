@@ -7,10 +7,16 @@
             "email": "credibility@dandb.com"
         }
     ],
+    "repositories": [
+	     {
+            "type": "vcs",
+            "url": "https://github.com/atyagi/scubaclick-mandrill"
+	     }
+	 ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "*",
-        "scubaclick/mandrill": "dev-master"
+        "illuminate/support": "4.1.*",
+        "scubaclick/mandrill": "dev-upgrade-4.1"
     },
     "autoload": {
         "classmap": [
