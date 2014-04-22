@@ -26,5 +26,5 @@
             "Credibility\\MandrillLaravel\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
