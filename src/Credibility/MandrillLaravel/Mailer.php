@@ -87,6 +87,13 @@ class Mailer {
         $emailFunc = Config::get("mandrill-laravel::content.".$view.".email");
         $customConfig = Config::get("mandrill-laravel::content.".$view.".custom");
 
+        if(is_callable($customConfig)){
+            $customConfig = $customConfig($data);
+            if(!is_array($customConfig)){
+                $customConfig = array($customConfig);
+            }
+        }
+
         $customData = array_merge(
             Config::get("mandrill-laravel::global_configs"),
             is_array($customConfig) ? $customConfig : array()
