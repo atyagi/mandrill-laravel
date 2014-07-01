@@ -118,9 +118,7 @@ class Mailer {
             'template_content' => array(),
             'message' => array(
                 'from_email' => Config::get("mandrill-laravel::from_email"),
-                'to' => array(
-                    array('email' => $data['email'])
-                ),
+                'to' => array(),
                 'merge_vars' => array(
                     array(
                         'rcpt' => $data['email'],
@@ -130,6 +128,13 @@ class Mailer {
             )
         );
 
+	foreach($data['email'] as $email) {
+	    if(is_array($email)) {
+		$request['message']['to'][] = $email;
+            } else {
+	        $request['message']['to'][] = array('email' => $email);
+	    } 
+	}
         $request['message'] = array_merge($request['message'], $data['custom']);
 
         return \Mandrill::sendEmailTemplate($request);
