@@ -106,28 +106,26 @@ class Mailer {
      */
     protected function sendMandrillTemplate($template, $data)
     {
+        $to = $mergeVars = array();
+        if(!is_array($data['email'])){
+            $to[] = array('email' => $data['email']);
+            $mergeVars[] = array('rcpt' => $data['email'],'vars' => $data['merge_vars']);
+        } else {
+            foreach($data['email'] as $email) {
+                $mergeVars[] = array('rcpt' => $email['email'],'vars' => $data['merge_vars']);
+                $to[] = $email;
+            }
+        }
         $request = array(
             'template_name' => $template,
             'template_content' => array(),
             'message' => array(
                 'from_email' => Config::get("mandrill-laravel::from_email"),
-                'to' => array(),
-                'merge_vars' => array(
-                    array(
-                        'rcpt' => $data['email'],
-                        'vars' => $data['merge_vars']
-                    )
-                )
+                'to' => $to,
+                'merge_vars' => $mergeVars
             )
         );
 
-	foreach($data['email'] as $email) {
-	    if(is_array($email)) {
-		$request['message']['to'][] = $email;
-            } else {
-	        $request['message']['to'][] = array('email' => $email);
-	    } 
-	}
         $request['message'] = array_merge($request['message'], $data['custom']);
 
         return \Mandrill::sendEmailTemplate($request);
